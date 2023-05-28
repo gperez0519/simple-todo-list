@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.todosHeader {
+  background: $brand-color;
+  color: #fff;
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 24px;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.todosDescription {
+  color: $description-color;
+  font-weight: 600;
+}

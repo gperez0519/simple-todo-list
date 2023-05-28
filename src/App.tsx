@@ -1,24 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import TodosHeader from "./components/TodosHeader/TodosHeader";
+import TodosList from "./components/TodosList/TodosList";
+import { Todos } from "./types/types";
+import AddTodos from "./components/AddTodos/AddTodos";
 
 function App() {
+  const [todos, setTodos] = useState<Todos[]>([]);
+
+  const addTodos = (task: string) => {
+    console.log(`Task detected from add todos: ${task}`);
+    if (task) {
+      const currentTodos: Todos[] = [...todos];
+
+      currentTodos.push({
+        id: currentTodos.length + 1,
+        task,
+        complete: false,
+      });
+
+      console.log(`Current todos with new task: `, currentTodos);
+
+      setTodos(currentTodos);
+    }
+  };
+
+  const updateTodo = (todo: Todos): void => {
+    console.log("update todo detected: ", todo);
+    let filteredTodos = todos.map((certainTodo) => {
+      if (certainTodo.id === todo.id) {
+        return {
+          ...certainTodo,
+          complete: !certainTodo.complete,
+        };
+      }
+      return certainTodo;
+    });
+
+    setTodos(filteredTodos);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TodosHeader />
+      <TodosList {...{ todos, updateTodo }} />
+      <AddTodos {...{ addTodos }} />
     </div>
   );
 }
